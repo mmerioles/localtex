@@ -1,0 +1,36 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\title{Hello, \LaTeX}
+\author{Your Name}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{It works}
+If you can read this as a PDF, your setup is working.
+
+Some math: $e^{i\pi} + 1 = 0$, and
+\begin{equation}
+  \int_0^\infty e^{-x^2}\,dx = \frac{\sqrt{\pi}}{2}.
+\end{equation}
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{lr}
+    \toprule
+    Thing & Value \\
+    \midrule
+    Apples & 3 \\
+    Pears  & 5 \\
+    \bottomrule
+  \end{tabular}
+  \caption{A small table.}
+\end{table}
+
+\end{document}

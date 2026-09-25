@@ -1,0 +1,6 @@
+# Extra LaTeX packages to install. One or more per line; lines starting with # are ignored.
+# Missing a package? ("File `something.sty' not found") -> add it here and re-run ./setup.sh
+latexmk
+geometry hyperref xcolor graphics tools amsmath amsfonts
+enumitem booktabs microtype siunitx cleveref
+biblatex biber

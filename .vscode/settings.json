@@ -1,0 +1,18 @@
+{
+  // Build with our build.sh (it knows where TinyTeX lives), on every save.
+  "latex-workshop.latex.recipes": [
+    { "name": "build.sh", "tools": ["buildsh"] }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "buildsh",
+      "command": "bash",
+      "args": ["${workspaceFolder}/build.sh", "%DOC_EXT%"]
+    }
+  ],
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.latex.autoClean.run": "never",
+  "latex-workshop.linting.chktex.enabled": false,
+  "[latex]": { "editor.wordWrap": "on" }
+}
