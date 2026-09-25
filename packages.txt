@@ -4,3 +4,7 @@ latexmk
 geometry hyperref xcolor graphics tools amsmath amsfonts
 enumitem booktabs microtype siunitx cleveref
 biblatex biber
+# for the resume (fullpage.sty lives in "preprint")
+titlesec fancyhdr marvosym preprint
+# sharp (non-bitmap) fonts for symbols like bullets and dashes, same as Overleaf
+cm-super
