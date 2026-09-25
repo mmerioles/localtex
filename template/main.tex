@@ -3,17 +3,22 @@
 \usepackage{amsmath, amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage[style=numeric]{biblatex}
 \usepackage{hyperref}
 
-\title{Hello, \LaTeX}
+\addbibresource{refs.bib}
+% Put images in a "figures" folder next to this file, then \includegraphics{name}
+\graphicspath{{figures/}}
+
+\title{My Document}
 \author{Your Name}
 \date{\today}
 
 \begin{document}
 \maketitle
 
-\section{It works}
-If you can read this as a PDF, your setup is working.
+\section{Introduction}
+If you can read this as a PDF, everything works. Start writing here.
 
 Some math: $e^{i\pi} + 1 = 0$, and
 \begin{equation}
@@ -32,5 +37,9 @@ Some math: $e^{i\pi} + 1 = 0$, and
   \end{tabular}
   \caption{A small table.}
 \end{table}
+
+Citations come from \texttt{refs.bib}, like this one~\cite{knuth1984}.
+
+\printbibliography
 
 \end{document}

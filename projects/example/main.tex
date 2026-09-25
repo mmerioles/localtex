@@ -1,0 +1,45 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[style=numeric]{biblatex}
+\usepackage{hyperref}
+
+\addbibresource{refs.bib}
+% Put images in a "figures" folder next to this file, then \includegraphics{name}
+\graphicspath{{figures/}}
+
+\title{My Document}
+\author{Your Name}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+If you can read this as a PDF, everything works. Start writing here.
+
+Some math: $e^{i\pi} + 1 = 0$, and
+\begin{equation}
+  \int_0^\infty e^{-x^2}\,dx = \frac{\sqrt{\pi}}{2}.
+\end{equation}
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{lr}
+    \toprule
+    Thing & Value \\
+    \midrule
+    Apples & 3 \\
+    Pears  & 5 \\
+    \bottomrule
+  \end{tabular}
+  \caption{A small table.}
+\end{table}
+
+Citations come from \texttt{refs.bib}, like this one~\cite{knuth1984}.
+
+\printbibliography
+
+\end{document}

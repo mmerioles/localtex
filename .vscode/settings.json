@@ -1,15 +1,6 @@
 {
-  // Build with our build.sh (it knows where TinyTeX lives), on every save.
-  "latex-workshop.latex.recipes": [
-    { "name": "build.sh", "tools": ["buildsh"] }
-  ],
-  "latex-workshop.latex.tools": [
-    {
-      "name": "buildsh",
-      "command": "bash",
-      "args": ["%WORKSPACE_FOLDER%/build.sh", "%DOC_EXT%"]
-    }
-  ],
+  // Builds use LaTeX Workshop's built-in "latexmk" recipe. setup.sh / setup.cmd
+  // put LaTeX on your PATH so it works the same on Mac and Windows.
   "latex-workshop.latex.autoBuild.run": "onSave",
 
   // Overleaf-style: save automatically a moment after you stop typing,

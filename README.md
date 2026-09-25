@@ -1,12 +1,14 @@
 # localtex
 
-Write LaTeX in VS Code, get a PDF. No Overleaf, no giant 5 GB install, no admin password.
+Overleaf, but on your own computer. Write LaTeX in VS Code and the PDF updates next to your code as you type. Works on **Mac and Windows**. No giant 5 GB install and no admin password.
+
+Each document is its own folder, and you can upload any of them to Overleaf whenever you want.
 
 ## What you need first
 
-- **A Mac** (Linux works too).
-- **VS Code** — you've got it.
-- **An internet connection** for the first setup (downloads about 250 MB).
+- **A Mac or a Windows PC** (Windows 10 or 11). Linux works too.
+- **VS Code**, which you already have.
+- **An internet connection** for the first setup. It downloads about 250 MB.
 
 That's it. The setup script installs everything else.
 
@@ -14,63 +16,93 @@ That's it. The setup script installs everything else.
 
 1. Open this folder in VS Code (**File → Open Folder…**).
 2. Open the terminal inside VS Code: **Terminal → New Terminal**.
-3. Run:
+3. Run the setup for your computer:
 
-   ```bash
-   ./setup.sh
-   ```
+   | Mac | Windows |
+   |---|---|
+   | `./setup.sh` | `.\setup.cmd` |
 
-4. Wait a few minutes. When you see `All good! main.pdf was built.`, you're done.
+4. Wait a few minutes. When you see `All good!`, **fully quit VS Code and open it again**. This lets it find LaTeX.
 
-> If it says `permission denied`, run `bash setup.sh` instead.
+> Mac: if it says `permission denied`, run `bash setup.sh` instead.
 
-**What just happened?** The script installed [TinyTeX](https://yihui.org/tinytex/) (a small LaTeX distribution) into your home folder (`~/Library/TinyTeX`), a few common LaTeX packages, and the **LaTeX Workshop** extension for VS Code. If it couldn't find VS Code's `code` command, it'll tell you — just install "LaTeX Workshop" from the Extensions tab yourself.
+**What just happened?** The script installed [TinyTeX](https://yihui.org/tinytex/), a small LaTeX distribution, into your user folder. It also installed a few common LaTeX packages and the **LaTeX Workshop** extension for VS Code, and added LaTeX to your PATH.
 
-## Everyday use (Overleaf-style)
+## How it's organized
 
-1. Open `main.tex` (or any `.tex` file) in VS Code.
-2. Click the **View LaTeX PDF** button in the top-right of the editor (or press `Cmd+Option+V`). The PDF opens side by side, to the right of your code.
+```
+template/         ← the starting point for every new document (don't write in here)
+projects/
+  example/        ← one folder = one document
+    main.tex
+    refs.bib
+  my-essay/       ← your own projects go here, next to it
+exports/          ← zip files for Overleaf end up here
+```
+
+Each project folder has everything it needs, so you can copy it, zip it, email it, or upload it to Overleaf as is.
+
+## Start a new document
+
+In the VS Code terminal:
+
+| Mac | Windows |
+|---|---|
+| `./project.sh new my-essay` | `.\project.cmd new my-essay` |
+
+This makes `projects/my-essay/` as a copy of `template/`. You can also just copy the `template` folder into `projects/` yourself and rename it. That works exactly the same.
+
+> Use names without spaces, like `my-essay` or `thesis_ch1`.
+
+## Writing (Overleaf-style)
+
+1. Open `projects/my-essay/main.tex` in VS Code.
+2. Click the **View LaTeX PDF** button in the top-right of the editor (or press `Cmd+Option+V` on Mac, `Ctrl+Alt+V` on Windows). The PDF opens side by side, to the right of your code.
 3. Just type. About a second after you stop, the file saves itself, rebuilds, and the PDF refreshes.
 
-You only need to open the PDF once. VS Code remembers the layout next time you open the folder.
+Put images in a `figures` folder inside your project and use `\includegraphics{name}`. Put references in `refs.bib`.
 
-Handy: `Cmd+click` in the PDF jumps to that spot in your code. From your code, `Cmd+Option+J` jumps to that spot in the PDF.
+Handy: `Cmd+click` (Windows: `Ctrl+click`) in the PDF jumps to that spot in your code.
 
-Too many rebuilds? Change `files.autoSaveDelay` in `.vscode/settings.json` (it's in milliseconds), or delete the two `files.autoSave` lines to go back to rebuilding only when you press `Cmd+S`.
+Too many rebuilds? Change `files.autoSaveDelay` in `.vscode/settings.json` (it's in milliseconds). Or delete the two `files.autoSave` lines to rebuild only when you press Save.
 
-Prefer the terminal? These work too:
+## Send a project to Overleaf
 
-```bash
-./build.sh             # builds main.tex -> main.pdf
-./build.sh other.tex   # builds a different file
-./clean.sh             # deletes the junk files (.aux, .log, ...), keeps the PDF
-./clean.sh --all       # deletes the PDFs too
-```
+| Mac | Windows |
+|---|---|
+| `./project.sh export my-essay` | `.\project.cmd export my-essay` |
+
+This creates `exports/my-essay.zip` with just your source files (no build junk). In Overleaf: **New Project → Upload Project** and pick that zip.
+
+**Going the other way:** in Overleaf, **Menu → Download → Source** gives you a zip. Unzip it into `projects/` and it's a project here too.
+
+## All the commands
+
+| What | Mac | Windows |
+|---|---|---|
+| New project | `./project.sh new NAME` | `.\project.cmd new NAME` |
+| Build the PDF (without VS Code) | `./project.sh build NAME` | `.\project.cmd build NAME` |
+| Zip for Overleaf | `./project.sh export NAME` | `.\project.cmd export NAME` |
+| Delete temp files (.aux, .log…) | `./project.sh clean NAME` | `.\project.cmd clean NAME` |
+| List projects | `./project.sh list` | `.\project.cmd list` |
 
 ## "File `something.sty' not found"
 
-That means you're using a LaTeX package that isn't installed yet. Fix:
+That means your document uses a LaTeX package that isn't installed yet. Fix:
 
-1. Add the package name to `packages.txt` (e.g. `tikz` → add `pgf`; usually the name is just the `.sty` name).
-2. Run `./setup.sh` again. It only installs what's new.
+1. Add the package name to `packages.txt`. It's usually the `.sty` name without the extension. One exception: TikZ is called `pgf`.
+2. Run the setup again (`./setup.sh` or `.\setup.cmd`). It only installs what's new.
 
-Not sure what the package is called? Run this and it'll tell you:
+Not sure what the package is called? Run `tlmgr search --global --file something.sty` and it'll tell you.
 
-```bash
-~/Library/TinyTeX/bin/*/tlmgr search --global --file something.sty
-```
+## Something's not working?
 
-## What's in here
-
-| File | What it's for |
-|---|---|
-| `setup.sh` | One-time install. Safe to re-run. |
-| `build.sh` | Turns a `.tex` into a `.pdf`. |
-| `clean.sh` | Removes LaTeX's temporary files. |
-| `packages.txt` | Extra LaTeX packages to install. |
-| `main.tex` | A starter document. Replace with your own. |
-| `.vscode/` | Makes VS Code build on save using `build.sh`. |
+- **"LaTeX not found", or VS Code says it can't find `latexmk`:** you probably didn't fully quit and reopen VS Code after setup. On Mac use **Cmd+Q**, not just closing the window.
+- **Errors in your document:** look at the **Problems** tab at the bottom of VS Code. It shows the line number.
 
 ## Uninstall
 
-Delete `~/Library/TinyTeX` (on Linux: `~/.TinyTeX`) and uninstall the LaTeX Workshop extension. Nothing else was touched.
+- **Mac:** delete `~/Library/TinyTeX`, and remove the line marked `# added by localtex setup` from `~/.zshrc` and `~/.bash_profile`.
+- **Windows:** run `tlmgr path remove` first, then delete `%APPDATA%\TinyTeX`.
+
+Then uninstall the LaTeX Workshop extension in VS Code.

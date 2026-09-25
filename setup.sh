@@ -17,10 +17,23 @@ if TEX_BIN="$(find_tex_bin)"; then
   echo "==> TinyTeX already installed at $TEX_BIN"
 else
   echo "==> Installing TinyTeX (takes a few minutes, no admin password needed)..."
-  curl -fsSL "https://yihui.org/tinytex/install-bin-unix.sh" | sh
+  # --no-path: skip TinyTeX's own PATH setup (on a Mac it asks for an admin
+  # password); we add it to your shell profile ourselves below.
+  curl -fsSL "https://yihui.org/tinytex/install-bin-unix.sh" | sh -s - --no-path
   TEX_BIN="$(find_tex_bin)" || { echo "!! TinyTeX install failed"; exit 1; }
 fi
 export PATH="$TEX_BIN:$PATH"
+
+# Put LaTeX on your PATH so VS Code (and your terminal) can find it.
+LINE="export PATH=\"$TEX_BIN:\$PATH\"  # added by localtex setup"
+if [ "$(uname)" = Darwin ]; then RCS=".zshrc .bash_profile"; else RCS=".bashrc .zshrc"; fi
+for f in $RCS; do
+  rc="$HOME/$f"
+  if ! grep -qF "# added by localtex setup" "$rc" 2>/dev/null; then
+    echo "==> Adding LaTeX to your PATH in $rc"
+    printf '\n%s\n' "$LINE" >> "$rc"
+  fi
+done
 
 # --- 2. LaTeX packages --------------------------------------------------------
 echo "==> Updating the package manager..."
@@ -46,6 +59,11 @@ else
   echo "   Install the 'LaTeX Workshop' extension from the VS Code Extensions tab instead."
 fi
 
-# --- 4. Smoke test -----------------------------------------------------------
-echo "==> Test build of main.tex..."
-./build.sh main.tex >/dev/null && echo "==> All good! main.pdf was built."
+# --- 4. Smoke test: build a throwaway copy of the template ------------------
+echo "==> Test build..."
+TEST_DIR="$(mktemp -d)"
+cp -R template/. "$TEST_DIR"
+(cd "$TEST_DIR" && latexmk -pdf -interaction=nonstopmode main.tex >/dev/null) \
+  || { echo "!! Test build failed - see $TEST_DIR/main.log"; exit 1; }
+rm -rf "$TEST_DIR"
+echo "==> All good! Now fully quit and reopen VS Code."
