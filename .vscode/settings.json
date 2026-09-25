@@ -11,7 +11,13 @@
     }
   ],
   "latex-workshop.latex.autoBuild.run": "onSave",
+
+  // Overleaf-style: save automatically a moment after you stop typing,
+  // which triggers a rebuild, and show the PDF in a tab to the right.
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
   "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.view.pdf.tab.editorGroup": "right",
   "latex-workshop.latex.autoClean.run": "never",
   "latex-workshop.linting.chktex.enabled": false,
   "[latex]": { "editor.wordWrap": "on" }

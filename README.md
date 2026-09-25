@@ -26,13 +26,17 @@ That's it. The setup script installs everything else.
 
 **What just happened?** The script installed [TinyTeX](https://yihui.org/tinytex/) (a small LaTeX distribution) into your home folder (`~/Library/TinyTeX`), a few common LaTeX packages, and the **LaTeX Workshop** extension for VS Code. If it couldn't find VS Code's `code` command, it'll tell you — just install "LaTeX Workshop" from the Extensions tab yourself.
 
-## Everyday use
+## Everyday use (Overleaf-style)
 
 1. Open `main.tex` (or any `.tex` file) in VS Code.
-2. Hit **Save** (`Cmd+S`). It builds automatically.
-3. To see the PDF, click the **View LaTeX PDF** button in the top-right of the editor (or `Cmd+Option+V`). It opens in a tab next to your code and refreshes every time you save.
+2. Click the **View LaTeX PDF** button in the top-right of the editor (or press `Cmd+Option+V`). The PDF opens side by side, to the right of your code.
+3. Just type. About a second after you stop, the file saves itself, rebuilds, and the PDF refreshes.
 
-Handy: `Cmd+click` in the PDF jumps to that spot in your code.
+You only need to open the PDF once. VS Code remembers the layout next time you open the folder.
+
+Handy: `Cmd+click` in the PDF jumps to that spot in your code. From your code, `Cmd+Option+J` jumps to that spot in the PDF.
+
+Too many rebuilds? Change `files.autoSaveDelay` in `.vscode/settings.json` (it's in milliseconds), or delete the two `files.autoSave` lines to go back to rebuilding only when you press `Cmd+S`.
 
 Prefer the terminal? These work too:
 
