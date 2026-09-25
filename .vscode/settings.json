@@ -7,7 +7,7 @@
     {
       "name": "buildsh",
       "command": "bash",
-      "args": ["${workspaceFolder}/build.sh", "%DOC_EXT%"]
+      "args": ["%WORKSPACE_FOLDER%/build.sh", "%DOC_EXT%"]
     }
   ],
   "latex-workshop.latex.autoBuild.run": "onSave",
